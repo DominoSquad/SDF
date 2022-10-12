@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -21,6 +22,13 @@ APlayerCharacter::APlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Camera attaches to the socket at the end of the Camera Boom
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to player controller
+
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationRoll = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 540.f, 0.f);
 }
 
 // Called when the game starts or when spawned
@@ -42,6 +50,8 @@ void APlayerCharacter::MoveForward(float Value)
 
 		AddMovementInput(Direction, Value); // Value is 1 if player is moving forward and -1 if backward
 	}
+
+	MoveForwardValue = Value;
 }
 
 void APlayerCharacter::MoveRight(float Value)
@@ -55,6 +65,8 @@ void APlayerCharacter::MoveRight(float Value)
 
 		AddMovementInput(Direction, Value);
 	}
+
+	MoveRightValue = Value;
 }
 
 // Called every frame

@@ -42,6 +42,12 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	float MoveForwardValue;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	float MoveRightValue;
+
 public:
 
 	/* Getter for Camera Boom */
@@ -49,4 +55,7 @@ public:
 
 	/* Getter for Follow Camera */
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	FORCEINLINE float GetMoveForwardValue() const { return MoveForwardValue; }
+	FORCEINLINE float GetMoveRightValue() const { return MoveRightValue; }
 };
