@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "CharacterTypes.h"
 #include "PlayerCharacterAnimInstance.generated.h"
 
 /**
@@ -16,6 +17,8 @@ class PROJECTDOMINO_API UPlayerCharacterAnimInstance : public UAnimInstance
 
 public:
 
+	UPlayerCharacterAnimInstance();
+
 	/* Updates animation data everyframe (like tick()) */
 	UFUNCTION(BlueprintCallable)
 	void UpdateAnimationProperties(float DeltaTime);
@@ -23,17 +26,31 @@ public:
 	/* Updates animation data before first frame (like beginplay()) */
 	virtual void NativeInitializeAnimation() override;
 
-	void UseControllerYawOrNah(bool IsAccelerating);
+	/* Instantly Sets Player's rotation to the controller's rotation based on circumstances */
+	void UseControllerYawOrNah(bool IsAccelerating, float PlayerSpeed);
+
+	/* Sets Player's rotation to the controller's rotation at an interped speed based on circumstances.
+	Used for smoothly turning the player around if the player wants to go in the opposite direction they are currently facing */
+	void SetActorRotToControlRot(float PlayerSpeed, float DeltaTime, bool IsAccelerating);
+
+	/* Reference to player character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class APlayerCharacter* PlayerCharacter;
+
+	/* Reference to character movement component */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UCharacterMovementComponent* PlayerMovementComponent;
+
+	/* Determines player's state */
+	UPROPERTY(BlueprintReadOnly, Category = "Movement | Character State")
+	ECharacterState CharacterState;
 
 private:
 
-	/* Reference to player character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	class APlayerCharacter* PlayerCharacter;
 
 	/* Speed of the player character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	float Speed;
+	float GroundSpeed;
 
 	/* True if player is in air, false if grounded */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
