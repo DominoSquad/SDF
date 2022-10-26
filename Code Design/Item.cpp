@@ -2,7 +2,6 @@
 
 
 #include "Items/Item.h"
-#include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
 #include "Character/PlayerCharacter.h"
 
@@ -16,10 +15,6 @@ AItem::AItem()
 	// Create Item Mesh subobject 
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
 	SetRootComponent(ItemMesh);
-	 
-	// Create collision box subobject 
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
-	CollisionBox->SetupAttachment(ItemMesh);
 
 	// Create pickup sphere object 
 	PickupSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PickupSphere"));

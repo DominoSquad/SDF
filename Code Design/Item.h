@@ -43,20 +43,16 @@ private:
 
 
 	/* Mesh for the item */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Item Properties", meta = (AllowPrivateAccess = "true"))
-	UStaticMeshComponent* ItemMesh;
-
-	/* Box Collision for the item. Enabled when attacking and disabled when not attacking */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item Properties", meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* CollisionBox;
+	UStaticMeshComponent* ItemMesh;
 
 	/* Sphere Collision for the item. When player is within sphere radius, UI elements will pop up, and the player will be able to pick up the item */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item Properties", meta = (AllowPrivateAccess = "true"))
 	class USphereComponent* PickupSphere;
 
-
 public:	
 	
 	/* Getters */
 	FORCEINLINE UStaticMeshComponent* GetItemMesh() const { return ItemMesh; }
+	FORCEINLINE USphereComponent* GetPickupSphere() const { return PickupSphere; }
 };

@@ -8,6 +8,7 @@
 #include "Items/Item.h"
 #include "Items/Weapons/Weapon.h"
 #include "Animation/AnimMontage.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter() :
@@ -119,7 +120,7 @@ bool APlayerCharacter::CanArm()
 }
 
 // Plays arm or disarm animations
-void APlayerCharacter::PlayEquipMontage(FName SectionName)
+void APlayerCharacter::PlayEquipMontage(const FName& SectionName)
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 
@@ -248,3 +249,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::Attack);
 }
 
+void APlayerCharacter::SetWeaponCollisionEnabled(ECollisionEnabled::Type CollisionEnabled)
+{
+	if (EquippedWeapon && EquippedWeapon->GetCollisionBox())
+	{
+		EquippedWeapon->GetCollisionBox()->SetCollisionEnabled(CollisionEnabled);
+		EquippedWeapon->IgnoreActors.Empty();
+	}
+}
